@@ -1,0 +1,135 @@
+openapi: 3.0.3
+info:
+  title: Counter Application
+  description: Counter Application
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/api/v1'
+paths:
+  /sum:
+    get:
+      operationId: getAllCountersValuesSum
+      summary: Get Sum Of All Counters
+      responses:
+        '200':
+          description:
+          content:
+            text/plain:
+              examples:
+                return:
+                  value: 'All counters sum: 3'
+  /counters:
+    get:
+      operationId: getCountersList
+      summary: Get All Counters
+      responses:
+        '200':
+          description: |-
+            200 response
+          content:
+            application/json:
+              examples:
+                return:
+                  value:
+                    {
+                      "name": {
+                        "name": "name",
+                        "value": 1
+                      },
+                      "hello": {
+                        "name": "hello",
+                        "value": 2
+                      }
+                    }
+    post:
+      operationId: createCounter
+      summary: Create New Counter
+      responses:
+        '201':
+          description: |-
+            201 created
+        '304':
+          description: |-
+            201 not modified
+          
+
+  /counters/${name}:
+    get:
+      operationId: getCounterByName
+      summary: Get counter by name
+      parameters:
+        - name: name
+          in: path
+          description: Counter ID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: |-
+            200 response
+          content:
+            application/json:
+              examples:
+                return:
+                  value:
+                    "name": {
+                      "name": "name",
+                      "value": 1
+                    }
+
+        '404':
+          description: |-
+            404 response
+
+
+    post:
+      parameters:
+        - name: name
+          in: path
+          description: Counter ID
+          required: true
+          schema:
+            type: string
+      operationId: incrementCounter
+      summary: Increment Counter by Name
+      responses:
+        '200':
+          description: |-
+            200 ok
+          content:
+            text/plain:
+              examples:
+                return:
+                  value: 1
+                  description: New Counter Value
+        '404':
+          description: |-
+            404 Not Found
+    delete:
+      parameters:
+        - name: name
+          in: path
+          description: Counter ID
+          required: true
+          schema:
+            type: string
+      operationId: deleteCounter
+      summary: Delete Counter by Name
+      responses:
+        '200':
+          description: |-
+            200 ok
+          content:
+            application/json:
+              examples:
+                return:
+                  value:
+                    {
+                      "name": "hello",
+                      "value": 2
+                    }
+                  description: Last Counter State
+        '404':
+          description: |-
+            404 Not Found
